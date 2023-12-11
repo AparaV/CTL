@@ -52,7 +52,8 @@ class AdaptiveTree(CTLearn):
         # ----------------------------------------------------------------
         # effect and pvals
         # ----------------------------------------------------------------
-        effect = tau_squared(y, t)
+        # effect = tau_squared(y, t)
+        effect = np.mean(y)
         p_val = get_pval(y, t)
         self.root.effect = effect
         self.root.p_val = p_val
@@ -142,10 +143,13 @@ class AdaptiveTree(CTLearn):
             t1 = train_t1
             t2 = train_t2
 
-            best_tb_effect = ace(y1, t1)
-            best_fb_effect = ace(y2, t2)
-            tb_p_val = get_pval(y1, t1)
-            fb_p_val = get_pval(y2, t2)
+            # best_tb_effect = ace(y1, t1)
+            # best_fb_effect = ace(y2, t2)
+            best_tb_effect = np.mean(y1)
+            best_fb_effect = np.mean(y2)
+            # tb_p_val = get_pval(y1, t1)
+            # fb_p_val = get_pval(y2, t2)
+            tb_p_val = fb_p_val = ttest_ind(y2, y1)[1]
 
             self.obj = self.obj - node.obj + best_tb_obj + best_fb_obj
 
